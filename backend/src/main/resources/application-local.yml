@@ -1,0 +1,11 @@
+logging:
+  level:
+    root: INFO
+    com.kokoabank: DEBUG
+
+springdoc:
+  api-docs:
+    enabled: true
+
+  swagger-ui:
+    enabled: true
