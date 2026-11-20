@@ -10,48 +10,41 @@ import {
 
 import AccountCard from '../components/ui/AccountCard';
 
-const demoAccounts = [
+import { useAccounts } from '../features/account/accountApi';
+import { useAuthStore } from '../stores/authStore';
+import { formatWon } from '../utils/format';
+
+const quickActions = [
   {
-    id: '1',
-    name: '코코아뱅크 입출금통장',
-    accountNumber: '3333000000001',
-    balance: 1250000,
-    color: 'yellow' as const,
+    label: '계좌 관리',
+    icon: Wallet,
+    path: '/accounts',
   },
   {
-    id: '2',
-    name: '저축통장',
-    accountNumber: '3333000000002',
-    balance: 3500000,
-    color: 'white' as const,
+    label: '이체',
+    icon: ArrowLeftRight,
+    path: '/transfer',
+  },
+  {
+    label: '거래내역',
+    icon: History,
+    path: '/transactions',
   },
 ];
 
 export default function HomePage() {
   const navigate = useNavigate();
 
-  const quickActions = [
-    {
-      label: '계좌 관리',
-      icon: Wallet,
-      path: '/accounts',
-    },
-    {
-      label: '이체',
-      icon: ArrowLeftRight,
-      path: '/transfer',
-    },
-    {
-      label: '거래내역',
-      icon: History,
-      path: '/transactions',
-    },
-  ];
+  const user = useAuthStore((state) => state.user);
+  const accounts = useAccounts();
+
+  const totalBalance = accounts.reduce(
+    (total, account) => total + account.balance,
+    0,
+  );
 
   return (
     <div className="space-y-5 px-5 pb-8 pt-2">
-
-      {/* 사용자 정보 */}
       <section className="flex items-center justify-between">
         <div>
           <p className="text-sm text-bank-gray">
@@ -59,24 +52,33 @@ export default function HomePage() {
           </p>
 
           <h2 className="mt-1 text-2xl font-bold">
-            코코아님
+            {user?.name}님
           </h2>
         </div>
 
         <div
           className="
-            flex h-12 w-12 items-center justify-center
-            rounded-full bg-[#FFE680]
-            text-lg font-bold
+            flex h-12 w-12 items-center
+            justify-center rounded-full
+            bg-[#FFE680] text-lg font-bold
           "
         >
-          K
+          {user?.name.charAt(0) || 'K'}
         </div>
       </section>
 
-      {/* 계좌 목록 */}
+      <section className="rounded-2xl bg-white p-5">
+        <p className="text-sm text-bank-gray">
+          내 총자산
+        </p>
+
+        <p className="mt-2 text-3xl font-bold tracking-tight">
+          {formatWon(totalBalance)}
+        </p>
+      </section>
+
       <section className="space-y-3">
-        {demoAccounts.map((account) => (
+        {accounts.map((account) => (
           <AccountCard
             key={account.id}
             name={account.name}
@@ -87,7 +89,9 @@ export default function HomePage() {
               navigate(`/accounts/${account.id}`)
             }
             onTransfer={() =>
-              navigate(`/transfer?accountId=${account.id}`)
+              navigate(
+                `/transfer?accountId=${account.id}`,
+              )
             }
           />
         ))}
@@ -106,9 +110,8 @@ export default function HomePage() {
         </button>
       </section>
 
-      {/* 빠른 메뉴 */}
       <section className="rounded-2xl bg-white p-5">
-        <h3 className="mb-5 text-base font-bold">
+        <h3 className="mb-5 font-bold">
           자주 쓰는 메뉴
         </h3>
 
@@ -142,7 +145,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 서비스 안내 */}
       <section
         className="
           flex items-center justify-between
