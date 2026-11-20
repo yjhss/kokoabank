@@ -1,14 +1,25 @@
 import { Bell, LogOut } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
+
+import { logout } from '../../features/auth/authApi';
 
 export default function Header() {
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <header
       className="
-        sticky top-0 z-20
-        flex h-16 items-center justify-between
+        sticky top-0 z-20 flex h-16 shrink-0
+        items-center justify-between
         bg-bank-background px-5
       "
     >
@@ -28,8 +39,8 @@ export default function Header() {
 
         <button
           type="button"
-          aria-label="데모 종료"
-          onClick={() => navigate('/login')}
+          aria-label="로그아웃"
+          onClick={handleLogout}
           className="rounded-lg p-1"
         >
           <LogOut size={22} strokeWidth={1.8} />
