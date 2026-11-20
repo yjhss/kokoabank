@@ -406,11 +406,9 @@ export default function TransferPage() {
           placeholder="0원"
           inputMode="numeric"
           value={amount}
-          onChange={(event) =>
-            setAmount(
-              event.target.value.replace(/\D/g, ''),
-            )
-          }
+         onChange={(event) =>
+            setAmount(event.target.value)
+         }
           required
         />
 
