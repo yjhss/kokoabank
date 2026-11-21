@@ -1,0 +1,69 @@
+package com.kokoabank.health.controller;
+
+import org.junit.jupiter.api.Test;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.micrometer.metrics.test.autoconfigure.AutoConfigureMetrics;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureMetrics
+class HealthControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void apiHealthReturnsUp() throws Exception {
+
+        mockMvc.perform(get("/api/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(
+                        jsonPath("$.data.service")
+                                .value("kokoabank-backend")
+                )
+                .andExpect(
+                        jsonPath("$.data.status")
+                                .value("UP")
+                );
+    }
+
+    @Test
+    void actuatorHealthReturnsUp() throws Exception {
+
+        mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
+    }
+
+    @Test
+    void livenessProbeReturnsUp() throws Exception {
+
+        mockMvc.perform(get("/actuator/health/liveness"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
+    }
+
+    @Test
+    void readinessProbeReturnsUp() throws Exception {
+
+        mockMvc.perform(get("/actuator/health/readiness"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
+    }
+
+    @Test
+    void prometheusEndpointIsAvailable() throws Exception {
+
+        mockMvc.perform(get("/actuator/prometheus"))
+                .andExpect(status().isOk());
+    }
+}
