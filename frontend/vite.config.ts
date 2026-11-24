@@ -7,18 +7,15 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-
   server: {
     host: 'localhost',
     port: 5173,
     strictPort: true,
-
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
       },
-
       '/oauth2': {
         target: 'http://localhost:8080',
         changeOrigin: true,
