@@ -2,6 +2,19 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 30s
 
+  datasource:
+    url: ${DB_JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      timeout: 3s
+      ssl:
+        enabled: ${REDIS_SSL_ENABLED:true}
+
 logging:
   level:
     root: INFO
