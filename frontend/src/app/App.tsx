@@ -1,4 +1,10 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
+
 import {
   QueryClient,
   QueryClientProvider,
@@ -12,7 +18,9 @@ import PlatformGuard from '../features/auth/PlatformGuard';
 import OverviewPage from '../pages/OverviewPage';
 import BankingHomePage from '../pages/BankingHomePage';
 import AccessDeniedPage from '../pages/AccessDeniedPage';
+
 import ServiceCatalogPage from '../features/catalog/ServiceCatalogPage';
+import RewardPage from '../features/rewards/RewardPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +46,11 @@ export default function App() {
             <Route
               path="/banking"
               element={<BankingHomePage />}
+            />
+
+            <Route
+              path="/rewards"
+              element={<RewardPage />}
             />
 
             <Route
