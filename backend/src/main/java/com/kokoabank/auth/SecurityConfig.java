@@ -53,6 +53,12 @@ public class SecurityConfig {
                 )
 
                 .requestMatchers(
+                    "/actuator/prometheus",
+                    "/actuator/metrics",
+                    "/actuator/metrics/**"
+                ).hasRole("ADMIN")
+
+                .requestMatchers(
                     "/api/banking/**"
                 ).authenticated()
 
