@@ -60,6 +60,10 @@ public class SecurityConfig {
                     "/api/auth/me"
                 ).authenticated()
 
+                  .requestMatchers(
+                    "/api/rewards/**"
+                ).authenticated()
+
                 .anyRequest().denyAll()
             )
 
