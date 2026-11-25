@@ -93,6 +93,13 @@ export default function BankingHomePage() {
               Developer Portal 이동
             </Link>
           )}
+
+          <Link
+            to="/rewards"
+            className="inline-flex items-center justify-center rounded-xl bg-[#FEE500] px-5 py-3 text-sm font-semibold text-[#191919]"
+            >
+            랜덤 캐시백 이용하기
+            </Link>
         </div>
 
         <div className="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-5">
